@@ -10,7 +10,7 @@
  *
  * Main module of the application.
  */
-angular
+var app = angular
   .module('angularFirebaseApp', [
     'ngAnimate',
     'ngAria',
@@ -34,6 +34,14 @@ angular
       .when('/contact', {
         templateUrl: 'views/contact.html',
         controller: 'ContactCtrl'
+      })
+      .when('/contact', {
+        templateUrl: 'views/contact.html',
+        controller: 'ContactCtrl'
+      })
+      .when('/posts', {
+        templateUrl: 'views/posts.html',
+        controller: 'PostsCtrl'
       })
       .otherwise({
         redirectTo: '/'
