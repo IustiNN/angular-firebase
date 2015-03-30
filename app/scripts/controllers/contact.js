@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name angularFirebaseApp.controller:AboutCtrl
+ * @name angularFirebaseApp.controller:ContactCtrl
  * @description
- * # AboutCtrl
+ * # ContactCtrl
  * Controller of the angularFirebaseApp
  */
 app
-  .controller('AboutCtrl', function ($scope) {
+  .controller('ContactCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
