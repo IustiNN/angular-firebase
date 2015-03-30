@@ -14,7 +14,7 @@
         {{post}}
             <div class="post">
                 <p class="title">{{post.title}}</p>
-                <a class="url">{{post.url}}</a>
+                <a class="url">({{ post.url | hostnameFromUrl }})</a>
                 <p>
                 <a href="#/posts/{{post.$id}}">Comments</a>
                 <a ng-click="deletePost(post)" class="btn btn-danger pull-right">Delete post</a>
