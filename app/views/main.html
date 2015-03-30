@@ -20,19 +20,16 @@
 
   <h4>Karma</h4>
   <p>Spectacular Test Runner for JavaScript.</p>
-  
-<form ng-submit="updateMessage()">
-    <input type="text" ng-model='message.text' class="form-control">
-    <input type="submit" value="Submit">
-</form>
+  <h1>{{awesomeThings[1]}}</h1>
+  <form ng-submit="updateMessage()">
+    <p class="form-group"><input type="text" ng-model='message.text' class="form-control"></p>
+    <p class="form-group"><input type="submit" class="btn btn-warning" value="Update message">
+    </p></form>
 
-  <button type="button" 
-          class="btn btn-success"
-          ng-click="setMessage()">Set message</button>
-  <button type="button" 
-          class="btn btn-warning"
-          ng-click="updateMessage()">Update message</button>
-  <button type="button" 
-          class="btn btn-danger"
-          ng-click="deleteMessage()">Delete message</button>
-</div>
+    <button type="button" 
+    class="btn btn-success"
+    ng-click="setMessage()">Set message</button>
+    <button type="button" 
+    class="btn btn-danger"
+    ng-click="deleteMessage()">Delete message</button>
+  </div>
