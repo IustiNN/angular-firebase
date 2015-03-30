@@ -37,6 +37,10 @@ var app = angular
         templateUrl: 'views/contact.html',
         controller: 'ContactCtrl'
       })
+      .when('/posts/:postId', {
+        templateUrl: 'views/showpost.html',
+        controller: 'PostViewCtrl'
+      })
       .when('/contact', {
         templateUrl: 'views/contact.html',
         controller: 'ContactCtrl'

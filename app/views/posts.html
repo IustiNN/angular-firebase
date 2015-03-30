@@ -1,20 +1,25 @@
 <!-- the posts view -->
 
 <div class="col-sm-8 col-sm-offset-2">
-    <h4>Create a new post</h4>
+<!--     <h4>Create a new post</h4>
     <form ng-submit="submitPost(post)">
       <p class="form-group"><input type="text" class="form-control" ng-model="post.title" /></p>
       <p class="form-group"><input type="text" class="form-control" ng-model="post.url" /></p>
       <p class="form-group"><input type="submit" class="btn btn-succes" value="Add Post" /></p>
-    </form>
+    </form> -->
 
     <h4>Posts so far:</h4>
-    <ul>
+    <ul class="postsList">
         <li ng-repeat="post in posts">
-            <div class="p">
+        {{post}}
+            <div class="post">
                 <p class="title">{{post.title}}</p>
                 <a class="url">{{post.url}}</a>
+                <p>
+                <a href="#/posts/{{post.$id}}">Comments</a>
                 <a ng-click="deletePost(post)" class="btn btn-danger pull-right">Delete post</a>
+                </p>
+                <hr>
             </div>
         </li>
     </ul>
