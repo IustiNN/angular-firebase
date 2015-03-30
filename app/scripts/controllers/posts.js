@@ -8,35 +8,17 @@
  * Controller of the angularFirebaseApp
  */
 app
-  .controller('PostsCtrl', function ($scope, Post) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('PostsCtrl',['$scope', 'Post', function ($scope, Post) {
+    var posts = Post.all;
+    $scope.post = {url: 'http://', 'title': ''};
 
-    //store posts
-    $scope.posts = [];
-
-    //post object
-    $scope.post = {
-        url: 'http://',
-        title: ''
-    };
-
-    //insert new posts
-    $scope.submitPost = function() {
-        Post.save($scope.post, function (ref) {
-      $scope.posts[ref.name] = $scope.post;
-      $scope.post = {url: 'http://', title: ''};
-});
-        
-    };
-
-    //delete a post
-    $scope.deletePost = function (postId) {
-      Post.delete({id: postId}, function () {
-        delete $scope.posts[postId];
+   $scope.submitPost = function () {
+      Post.create($scope.post).then(function() {
+        $scope.post = {url: 'http://', 'title': ''};
       });
+  };
+    $scope.deletePost = function (post) {
+      return posts.$remove(post);
     };
-  });
+    $scope.posts = posts;
+  }]);

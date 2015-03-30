@@ -13,6 +13,7 @@
 var app = angular
   .module('angularFirebaseApp', [
     'ngAnimate',
+    'firebase',
     'ngAria',
     'ngCookies',
     'ngMessages',
@@ -21,6 +22,7 @@ var app = angular
     'ngSanitize',
     'ngTouch'
   ])
+  .constant('FIREBASE_URL', 'https://dazzling-heat-502.firebaseio.com/')
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
