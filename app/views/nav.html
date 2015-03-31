@@ -37,7 +37,7 @@
       <button type="submit" class="btn btn-default">Submit</button>
     </form>
 
-
+<div class="accRelated" ng-controller="AuthCtrl">
        <div ng-show="authData">
         <p>Hello, {{ authData.name }}</p>
         <button ng-click="auth.$unauth()" class="btn btn-danger">Logout</button>
@@ -47,6 +47,7 @@
         <a href="#/login">Login</a>
         <a href="#/register">Register</a>
       </div>
+  </div>
   </div><!-- /.navbar-collapse -->
     </div>
 
