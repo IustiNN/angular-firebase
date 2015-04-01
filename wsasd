@@ -1,0 +1,149 @@
+[1mdiff --git a/app/scripts/controllers/auth.js b/app/scripts/controllers/auth.js[m
+[1mindex a7593ca..f18bdcb 100644[m
+[1m--- a/app/scripts/controllers/auth.js[m
+[1m+++ b/app/scripts/controllers/auth.js[m
+[36m@@ -1,30 +1,49 @@[m
+ 'use strict';[m
+ [m
+[31m-app.controller('AuthCtrl', ['$scope', 'Auth', '$location',[m
+[31m-  function($scope, Auth, $location) {[m
+[32m+[m[32mapp.controller('AuthCtrl', ['$scope', 'Auth', '$location', 'user', '$feribaseAuth',[m
+[32m+[m[32m  function($scope, Auth, $location, user, $firebaseAuth) {[m
+       $scope.message = null;[m
+       $scope.error = null;[m
+[32m+[m
+[32m+[m
+       $scope.auth = Auth;[m
+       [m
+ // any time auth status updates, add the user data to scope[m
+     $scope.auth.$onAuth(function(authData) {[m
+       $scope.authData = authData;[m
+[32m+[m[32m      angular.copy(user, Auth.user);[m
+[32m+[m[32m      Auth.user.profile = $firebaseAuth(profileRef.child('profile').child(Auth.user.uid));[m
+[32m+[m
+[32m+[m[32m  console.log(Auth.user);[m
+[32m+[m[32m      console.log(authData);[m
+     });[m
+[32m+[m[41m  [m
+[32m+[m[32m  var profileRef = new Firebase('https://dazzling-heat-502.firebaseio.com/' + 'profile');[m
+ [m
+ [m
+[32m+[m[32m$scope.createProfile = function (user) {[m
+[32m+[m[32m  var profile = {[m
+[32m+[m[32m    username: user.username,[m
+[32m+[m[32m    md5_hash: user.md5_hash[m
+[32m+[m[32m  };[m
+[32m+[m
+[32m+[m[32m  return profileRef.$set(user.uid, profile);[m
+[32m+[m[32m},[m
+ [m
+ [m
+ $scope.createUser = function() {[m
+     Auth.$createUser({[m
+[31m-      email: $scope.email,[m
+[31m-      password: $scope.password[m
+[32m+[m[32m      email: $scope.user.email,[m
+[32m+[m[32m      password: $scope.user.password[m
+     }).then(function(userData) {[m
+       $scope.message = 'User created with uid: ' + userData.uid;[m
+       console.log($scope.message);[m
+       // authenticate so we have permission to write to Firebase[m
+       // redirect to the account page[m
+       $location.path('/posts');[m
+[31m-      return $scope.auth.$authWithPassword({ email: $scope.email, password: $scope.password });[m
+[32m+[m[32m      return $scope.auth.$authWithPassword({ email: $scope.user.email, password: $scope.user.password }).then(function(){[m
+[32m+[m[32m        return $scope.createProfile();[m
+[32m+[m[32m      });[m
+     }).catch(function(error) {[m
+       $scope.error = error;[m
+       console.log($scope.error);      [m
+[36m@@ -45,11 +64,12 @@[m [m$scope.changePassword = function() {[m
+ };[m
+ [m
+ $scope.loginUser = function () {[m
+[32m+[m[32m   $scope.authData = null;[m
+   Auth.$authWithPassword({[m
+[31m-    email: $scope.email,[m
+[31m-    password: $scope.password[m
+[31m-  }).then(function() {[m
+[31m-    console.log('Logged in as: from login method');[m
+[32m+[m[32m    email: $scope.user.email,[m
+[32m+[m[32m    password: $scope.user.password[m
+[32m+[m[32m  },{rememberMe: true}).then(function(authData) {[m
+[32m+[m[32m    console.log('Logged in as:'+authData.uid+' from login method');[m
+        $location.path('/posts');[m
+ [m
+   }).catch(function(error) {[m
+[36m@@ -60,6 +80,10 @@[m [m$scope.loginUser = function () {[m
+ [m
+ $scope.logoutUser = function () {[m
+   Auth.$unauth();[m
+[32m+[m[32m  if(Auth.user && Auth.user.profile) {[m
+[32m+[m[32m    Auth.user.profile.$destroy();[m
+[32m+[m[32m  }[m
+[32m+[m[32m  angular.copy({}, Auth.user);[m
+ };[m
+ [m
+ [m
+[1mdiff --git a/app/views/login.html b/app/views/login.html[m
+[1mindex 7ec0d7a..17ee5ad 100644[m
+[1m--- a/app/views/login.html[m
+[1m+++ b/app/views/login.html[m
+[36m@@ -6,8 +6,8 @@[m
+ [m
+   <form ng-submit="loginUser()">[m
+    <p class="form-group"><input type="email" ng-model="email" placeholder="Email" class="form-control"></p>[m
+[31m-   <p class="form-group"> <input type="password" ng-model="password" placeholder="Password" class="form-control"></p>[m
+[32m+[m[32m   <p class="form-group"><input type="text" ng-model="user.username" placeholder="Username" class="form-control"></p>[m
+     <p class="form-group"><input type="submit" value="Log in" class="btn btn-primary" /></p>[m
+   </form>[m
+ [m
+[31m-</div>[m
+\ No newline at end of file[m
+[32m+[m[32m</div>[m[41m	[m
+\ No newline at end of file[m
+[1mdiff --git a/app/views/nav.html b/app/views/nav.html[m
+[1mindex 885172c..b91a807 100644[m
+[1m--- a/app/views/nav.html[m
+[1m+++ b/app/views/nav.html[m
+[36m@@ -15,9 +15,9 @@[m
+ [m
+           <div class="collapse navbar-collapse" id="js-navbar-collapse">[m
+ [m
+[31m-            <ul class="nav navbar-nav">[m
+[32m+[m[32m            <ul class="nav navbar-nav" ng-controller="AuthCtrl">[m
+               <li class="active"><a href="#/">Home</a></li>[m
+[31m-              <li><a href="#/posts">Posts</a></li>[m
+[32m+[m[32m              <li><a ng-show="authData" href="#/posts">Posts</a></li>[m
+               <li><a ng-href="#/about">About</a></li>[m
+               <li><a ng-href="#/contact">Contact</a></li>[m
+             </ul>[m
+[36m@@ -44,8 +44,8 @@[m
+       </div>[m
+       <div ng-hide="authData">[m
+         <p>Welcome, please log in.</p>[m
+[31m-        <a href="#/login">Login</a>[m
+[31m-        <a href="#/register">Register</a>[m
+[32m+[m[32m        <a href="#/login" class="btn btn-success">Login</a>[m
+[32m+[m[32m        <a href="#/register" class="btn btn-primary">Register</a>[m
+       </div>[m
+   </div>[m
+   </div><!-- /.navbar-collapse -->[m
+[1mdiff --git a/app/views/register.html b/app/views/register.html[m
+[1mindex cd75d92..a7bb83a 100644[m
+[1m--- a/app/views/register.html[m
+[1m+++ b/app/views/register.html[m
+[36m@@ -6,8 +6,11 @@[m
+   <p ng-if="error">Error: <strong>{{ error }}</strong></p>	[m
+ [m
+   <form ng-submit="createUser()">[m
+[31m-    <p class="form-group"><input type="email" ng-model="email" placeholder="Email" class="form-control"></p>[m
+[31m-   <p class="form-group"> <input type="password" ng-model="password" placeholder="Password" class="form-control"></p>[m
+[32m+[m[32m    <p class="form-group"><label>Email:*</label><input type="email" ng-model="email" placeholder="Email" class="form-control"></p>[m
+[32m+[m[32m   <p class="form-group"> <label>Password:*</label><input type="password" ng-model="password" placeholder="Password" class="form-control"></p>[m
+[32m+[m[32m      <p class="form-group"> <label>Username:</label><input type="text" ng-model="user.username" placeholder="Username" class="form-control">[m
+[32m+[m[32m</p>[m
+[32m+[m
+     <p class="form-group"><input type="submit" value="Register" class="btn btn-primary" /></p>[m
+   </form>[m
+ [m

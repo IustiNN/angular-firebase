@@ -15,9 +15,9 @@
 
           <div class="collapse navbar-collapse" id="js-navbar-collapse">
 
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav" ng-controller="AuthCtrl">
               <li class="active"><a href="#/">Home</a></li>
-              <li><a href="#/posts">Posts</a></li>
+              <li><a ng-show="authData" href="#/posts">Posts</a></li>
               <li><a ng-href="#/about">About</a></li>
               <li><a ng-href="#/contact">Contact</a></li>
             </ul>
@@ -44,8 +44,8 @@
       </div>
       <div ng-hide="authData">
         <p>Welcome, please log in.</p>
-        <a href="#/login">Login</a>
-        <a href="#/register">Register</a>
+        <a href="#/login" class="btn btn-success">Login</a>
+        <a href="#/register" class="btn btn-primary">Register</a>
       </div>
   </div>
   </div><!-- /.navbar-collapse -->
