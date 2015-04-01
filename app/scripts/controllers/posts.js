@@ -10,10 +10,12 @@
 app
   .controller('PostsCtrl',['$scope', '$location', 'Post', function ($scope, $location, Post) {
     var posts = Post.all;
-    $scope.post = {url: 'http://', 'title': ''};
+    $scope.post = {'url': 'http://', 'title': '', 'timestamp': Firebase.ServerValue.TIMESTAMP};
 
    $scope.submitPost = function () {
       Post.create($scope.post).then(function(ref) {
+        console.log(Firebase.key.TIMESTAMP);
+        console.log('Created post:' + $scope.post);
         $location.path('/posts/' + ref.name());
       });
   };
@@ -21,4 +23,6 @@ app
       return posts.$remove(post);
     };
     $scope.posts = posts;
+
+
   }]);
