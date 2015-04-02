@@ -20,11 +20,10 @@ angular.module('angularFirebaseApp')
     childRef.on('value', function(snapshot) {
     	$timeout(function() {
     		var snapshotVal = snapshot.val();
-    	console.log(snapshotVal);
-    	$scope.message = snapshotVal;
-	    });
-    	
-    });
+        	console.log(snapshotVal);
+        	$scope.message = snapshotVal;
+    	    });
+        });
     	
     $scope.$watch('message.text', function(newValue) {
     	console.log(newValue);	

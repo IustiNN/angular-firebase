@@ -1,0 +1,16 @@
+<div class="auth-forms">
+
+  <h2>Register</h2>
+
+  <p ng-if="message">Message: <strong>{{ message }}</strong></p>
+  <p ng-if="error">Error: <strong>{{ error }}</strong></p>	
+
+  <form ng-submit="createUser()">
+    <p class="form-group"><input type="email" ng-model="email" placeholder="Email" class="form-control"></p>
+   <p class="form-group"> <input type="password" ng-model="password" placeholder="Password" class="form-control"></p>
+    <p class="form-group"><input type="submit" value="Register" class="btn btn-primary" /></p>
+  </form>
+
+ 
+
+</div>

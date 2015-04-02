@@ -1,6 +1,6 @@
 {
   "firebase": "dazzling-heat-502",
-  "public": "app",
+  "public": "dist/",
   "ignore": [
     "firebase.json",
     "**/.*",
