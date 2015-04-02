@@ -1,16 +1,60 @@
 'use strict';
 
-app.factory('Auth', ['$firebaseAuth', function($firebaseAuth) {
+app.factory('Auth', ['$firebaseAuth', '$scope', function($firebaseAuth, $scope) {
   var ref = new Firebase('https://dazzling-heat-502.firebaseio.com/');
+  var auth = $firebaseAuth(ref);
   
-  return $firebaseAuth(ref); 
-}
-]);
+  var Auth = {
+
+    createUser : function(user) {
+      return auth.$createUser({
+        email: user.email,
+        password: user.pass
+      });
+    },
+
+    loginUser : function (user) {
+    $scope.authData = null;
+     return auth.$authWithPassword({
+     email: user.email,
+     password: user.password
+   },{rememberMe: true});
+  },
+
+  logoutUser : function () {
+   return auth.$unauth();
+   // if(Auth.user && Auth.user.profile) {
+   //   Auth.user.profile.$destroy();
+   // }
+   // angular.copy({}, Auth.user);
+  }, 
+
+    changePassword : function() {
+     return auth.$changePassword({
+       email: 'my@email.com',
+       oldPassword: 'mypassword',
+       newPassword: 'otherpassword'
+     }).then(function() {
+       console.log('Password changed successfully!');
+     }).catch(function(error) {
+       console.error('Error: ', error);
+     });
+   },
+   user: {}
+  };
+
+  return {
+    Auth,
+    auth
+  };
 
 
-  
-  
- 
+}]);
+
+
+
+
+
 // var Auth = {};
 // Auth.login = function(email, password) {
 //   auth.login('password', {

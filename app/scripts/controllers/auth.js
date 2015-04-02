@@ -1,103 +1,52 @@
 'use strict';
 
-app.controller('AuthCtrl', ['$scope', 'Auth', '$location', 'user', '$feribaseAuth',
-  function($scope, Auth, $location, user, $firebaseAuth) {
+app.controller('AuthCtrl', ['$scope', 'Auth', '$location', 'user',
+  function($scope, Auth, $location, user) {
       $scope.message = null;
       $scope.error = null;
-
-
-      $scope.auth = Auth;
       
-// any time auth status updates, add the user data to scope
-    $scope.auth.$onAuth(function(authData) {
-      $scope.authData = authData;
-      angular.copy(user, Auth.user);
-      Auth.user.profile = $firebaseAuth(profileRef.child('profile').child(Auth.user.uid));
+      // $scope.user = user;
+      // $scope.Auth = Auth;
+      if (user) {
+        $location.path('/');
+      }
+  // any time auth status updates, add the user data to scope
+  //   Auth.$onAuth(function(authData) {
+  //     $scope.authData = authData;
 
-  console.log(Auth.user);
-      console.log(authData);
-    });
+  // console.log(Auth.user);
+  //     console.log(authData);
+  //   });
   
-  var profileRef = new Firebase('https://dazzling-heat-502.firebaseio.com/' + 'profile');
-
-
-$scope.createProfile = function (user) {
-  var profile = {
-    username: user.username,
-    md5_hash: user.md5_hash
-  };
-
-  return profileRef.$set(user.uid, profile);
-},
-
-
-$scope.createUser = function() {
-    Auth.$createUser({
-      email: $scope.user.email,
-      password: $scope.user.password
-    }).then(function(userData) {
+    $scope.createUser = function() {
+      Auth.createUser($scope.user).then(function(userData) {
       $scope.message = 'User created with uid: ' + userData.uid;
       console.log($scope.message);
       // authenticate so we have permission to write to Firebase
       // redirect to the account page
       $location.path('/posts');
-      return $scope.auth.$authWithPassword({ email: $scope.user.email, password: $scope.user.password }).then(function(){
-        return $scope.createProfile();
-      });
-    }).catch(function(error) {
-      $scope.error = error;
-      console.log($scope.error);      
+      return Auth.loginUser($scope.user);
+
     });
-  };
+    };
 
-$scope.createProfile = function () {
-  var profile = {
-    username: $scope.username,
-    md5_hash: $scope.md5_hash
-  };
+    $scope.loginUser = function() {
+      Auth.loginUser($scope.user).then(function(authData) {
+     console.log('Logged in as:'+authData+' from login method');
+     $location.path('/posts');
 
-  var profileRef = $firebaseArray(ref.child('profile'));
-  return profileRef.$set(user.uid, profile);
-};
+   }).catch(function(error) {
+     console.error('Authentication failed:', error);
+   });
+    };
 
+    $scope.logoutUser = function() {
+      Auth.logoutUser();
+    };
 
-$scope.changePassword = function() {
-  Auth.$changePassword({
-  email: 'my@email.com',
-  oldPassword: 'mypassword',
-  newPassword: 'otherpassword'
-}).then(function() {
-  console.log('Password changed successfully!');
-}).catch(function(error) {
-  console.error('Error: ', error);
-});
-};
-
-$scope.loginUser = function () {
-   $scope.authData = null;
-  Auth.$authWithPassword({
-    email: $scope.user.email,
-    password: $scope.user.password
-  },{rememberMe: true}).then(function(authData) {
-    console.log('Logged in as:'+authData.uid+' from login method');
-       $location.path('/posts');
-
-  }).catch(function(error) {
-    $scope.wrongPass = true;
-    console.error('Authentication failed:', error);
-  });
-};
-
-$scope.logoutUser = function () {
-  Auth.$unauth();
-  if(Auth.user && Auth.user.profile) {
-    Auth.user.profile.$destroy();
-  }
-  angular.copy({}, Auth.user);
-};
+}]);
 
 
-return Auth;
 // app.controller('AuthCtrl', ['$scope', 'Auth', function ($scope, Auth) {
 //     $scope.email = null;
 //     $scope.password = null;
@@ -177,5 +126,3 @@ return Auth;
   //     var f = str.charAt(0).toUpperCase();
   //     return f + str.substr(1);
   //   }
-
-}]);
