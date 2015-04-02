@@ -50,6 +50,16 @@ $scope.createUser = function() {
     });
   };
 
+$scope.createProfile = function () {
+  var profile = {
+    username: $scope.username,
+    md5_hash: $scope.md5_hash
+  };
+
+  var profileRef = $firebaseArray(ref.child('profile'));
+  return profileRef.$set(user.uid, profile);
+};
+
 
 $scope.changePassword = function() {
   Auth.$changePassword({
