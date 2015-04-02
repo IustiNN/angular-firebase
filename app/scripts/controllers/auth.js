@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('AuthCtrl', ['$scope', 'Auth', '$location',
-  function($scope, Auth, $location) {
+app.controller('AuthCtrl', ['$scope', '$firebaseArray', 'Auth', '$location',
+  function($scope, Auth, $location, $firebaseArray) {
       $scope.message = null;
       $scope.error = null;
       $scope.auth = Auth;
@@ -17,7 +17,8 @@ app.controller('AuthCtrl', ['$scope', 'Auth', '$location',
 $scope.createUser = function() {
     Auth.$createUser({
       email: $scope.email,
-      password: $scope.password
+      password: $scope.password,
+      username: $scope.username
     }).then(function(userData) {
       $scope.message = 'User created with uid: ' + userData.uid;
       console.log($scope.message);
@@ -30,6 +31,16 @@ $scope.createUser = function() {
       console.log($scope.error);      
     });
   };
+
+$scope.createProfile = function () {
+  var profile = {
+    username: $scope.username,
+    md5_hash: $scope.md5_hash
+  };
+
+  var profileRef = $firebaseArray(ref.child('profile'));
+  return profileRef.$set(user.uid, profile);
+};
 
 
 $scope.changePassword = function() {
