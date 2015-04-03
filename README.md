@@ -3,7 +3,9 @@
 This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
 version 0.11.1.
 
-[![Build Status](https://travis-ci.org/IustiNN/angular-firebase.png)](https://travis-ci.org/IustiNN/angular-firebase)
+####[![Build Status](https://travis-ci.org/IustiNN/angular-firebase.png)](https://travis-ci.org/IustiNN/angular-firebase)
+
+####[![Codacy Badge](https://www.codacy.com/project/badge/3265dda2da7a45da904372dbd394de95)](https://www.codacy.com/app/iustin-nitza/angular-firebase)
 
 ####[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
