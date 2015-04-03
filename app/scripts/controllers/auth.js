@@ -1,13 +1,13 @@
 'use strict';
 
-app.controller('AuthCtrl', ['$scope', 'Auth', '$location', 'user',
-  function($scope, Auth, $location, user) {
+app.controller('AuthCtrl', ['$scope', 'Auth', '$location',
+  function($scope, Auth, $location) {
       $scope.message = null;
       $scope.error = null;
-      
-      // $scope.user = user;
       // $scope.Auth = Auth;
-      if (user) {
+      // $scope.user = Auth.user;
+      
+      if ($scope.user) {
         $location.path('/');
       }
   // any time auth status updates, add the user data to scope
@@ -32,7 +32,7 @@ app.controller('AuthCtrl', ['$scope', 'Auth', '$location', 'user',
 
     $scope.loginUser = function() {
       Auth.loginUser($scope.user).then(function(authData) {
-     console.log('Logged in as:'+authData+' from login method');
+     console.log('Logged in as:'+authData.user+' from login method');
      $location.path('/posts');
 
    }).catch(function(error) {
@@ -43,6 +43,7 @@ app.controller('AuthCtrl', ['$scope', 'Auth', '$location', 'user',
     $scope.logoutUser = function() {
       Auth.logoutUser();
     };
+
 
 }]);
 

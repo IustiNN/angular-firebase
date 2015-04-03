@@ -1,6 +1,5 @@
 'use strict';
-
-app.factory('Auth', ['$firebaseAuth', '$scope', function($firebaseAuth, $scope) {
+app.factory('Auth', ['$firebaseAuth', function($firebaseAuth) {
   var ref = new Firebase('https://dazzling-heat-502.firebaseio.com/');
   var auth = $firebaseAuth(ref);
   
@@ -14,7 +13,7 @@ app.factory('Auth', ['$firebaseAuth', '$scope', function($firebaseAuth, $scope) 
     },
 
     loginUser : function (user) {
-    $scope.authData = null;
+      
      return auth.$authWithPassword({
      email: user.email,
      password: user.password
@@ -43,10 +42,7 @@ app.factory('Auth', ['$firebaseAuth', '$scope', function($firebaseAuth, $scope) 
    user: {}
   };
 
-  return {
-    Auth,
-    auth
-  };
+  return Auth;
 
 
 }]);
