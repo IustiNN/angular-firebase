@@ -26,10 +26,10 @@ app.directive('detectActiveTab', function ($location) {
 
             // now compare the two:
             if (pathToCheck === tabLink) {
-              element.addClass("active");
+              element.parent('li').addClass("active");
             }
             else {
-              element.removeClass("active");
+              element.parent('li').removeClass("active");
             }
         });
       }
