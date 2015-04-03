@@ -4,29 +4,21 @@ app.factory('Auth', ['$firebaseAuth', function($firebaseAuth) {
   var auth = $firebaseAuth(ref);
   
   var Auth = {
-
+    isLogged : false,
     createUser : function(user) {
       return auth.$createUser({
-        password: user.pass,
-        email: user.email
-      }).then(function(authData) {
-         console.log('User ' + authData.uid + ' created successfully!');
-        return auth.$authWithPassword({
-          email: 'my@email.com',
-          password: 'mypassword'
-        });
-      }).then(function(authData) {
-        console.log('Logged in as:', authData.uid);
-      }).catch(function(error) {
-        console.error('Error: ', error);
+        email: user.email,
+        password: user.pass
       });
     },
 
     checkLogin : auth.$onAuth(function(authData) {
     if (authData) {
       console.log('Logged in as:', authData.uid);
+      Auth.isLogged = true;
       return authData;
     } else {
+      // this.isLogged = false;
       console.log('Logged out');
     }
   }),
@@ -35,10 +27,13 @@ app.factory('Auth', ['$firebaseAuth', function($firebaseAuth) {
      return auth.$authWithPassword({
      email: user.email,
      password: user.password
-   },{rememberMe: true});
+   },{rememberMe: true}).then(function() {
+      Auth.isLogged = true;
+   });
   },
 
   logoutUser : function () {
+    this.isLogged = false;
    return auth.$unauth();
    // if(Auth.user && Auth.user.profile) {
    //   Auth.user.profile.$destroy();

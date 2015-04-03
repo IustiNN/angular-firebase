@@ -17,7 +17,7 @@
 
             <ul class="nav navbar-nav">
               <li class="active"><a detect-active-tab="1" href="#/home">Home</a></li>
-              <li><a ng-show="authData" detect-active-tab="1" href="#/posts">Posts</a></li>
+              <li><a detect-active-tab="1" href="#/posts">Posts</a></li>
               <li><a detect-active-tab="1" ng-href="#/about">About</a></li>
               <li><a detect-active-tab="1" ng-href="#/contact">Contact</a></li>
             </ul>
@@ -27,10 +27,10 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
 {{user}}
       <div ng-controller="AuthCtrl" class="accRelated">
-        <div ng-hide="user">
+        <div ng-hide="sharedValue">
           <h4>Please log in to submit a post.</h4>
         </div> 
-        <div ng-show="user">
+        <div ng-show="sharedValue">
           <h4>If you want to submit a post, go to the posts page.</h4>
         </div> 
         <div ng-show="user.authData">

@@ -7,7 +7,25 @@
       <p class="form-group"><input type="text" class="form-control" ng-model="post.url" /></p>
       <p class="form-group"><input type="submit" class="btn btn-succes" value="Add Post" /></p>
     </form> -->
- <div ng-controller="AuthCtrl" ng-show="authData" class="formNav">
+ <div ng-controller="AuthCtrl" ng-show="authData.uid" class="formNav">
+
+ <div ng-controller="AuthCtrl" class="accRelated">
+        <div ng-hide="userState.status">
+          <h4>Please log in to submit a post.</h4>
+        </div> 
+        <div ng-show="userState.status">
+          <h4>If you want to submit a post, go to the posts page.</h4>
+        </div> 
+        <div ng-show="user.authData">
+          <p>Hello, {{ authData.password.email }}</p>
+          <button ng-click="Auth.$unauth()" class="btn btn-danger">Logout</button>
+        </div>
+        <div ng-hide="authData">
+          <p>Welcome, please log in.</p>
+          <a href="#/login">Login</a>
+          <a href="#/register">Register</a>
+        </div>
+      </div>
 
   <!-- if logged in  -->
   <div ng-show="authData">
