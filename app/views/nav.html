@@ -25,16 +25,16 @@
         </div>
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
-
-      <div class="accRelated" ng-controller="AuthCtrl">{{authData}}
-        <div ng-hide="authData">
+{{user}}
+      <div ng-controller="AuthCtrl" class="accRelated">
+        <div ng-hide="user">
           <h4>Please log in to submit a post.</h4>
         </div> 
-        <div ng-show="authData">
+        <div ng-show="user">
           <h4>If you want to submit a post, go to the posts page.</h4>
         </div> 
-        <div ng-show="authData">
-          <p>Hello, {{ authData }}</p>
+        <div ng-show="user.authData">
+          <p>Hello, {{ authData.password.email }}</p>
           <button ng-click="Auth.$unauth()" class="btn btn-danger">Logout</button>
         </div>
         <div ng-hide="authData">

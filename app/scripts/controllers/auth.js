@@ -6,7 +6,7 @@ app.controller('AuthCtrl', ['$scope', 'Auth', '$location',
       $scope.error = null;
       // $scope.Auth = Auth;
       // $scope.user = Auth.user;
-      
+      $scope.authData = Auth.checkLogin();
       if ($scope.user) {
         $location.path('/');
       }
@@ -20,7 +20,7 @@ app.controller('AuthCtrl', ['$scope', 'Auth', '$location',
   
     $scope.createUser = function() {
       Auth.createUser($scope.user).then(function(userData) {
-      $scope.message = 'User created with uid: ' + userData.uid;
+      $scope.message = 'User created with uid: ' + userData.uid + 'and ' + userData.password.email;
       console.log($scope.message);
       // authenticate so we have permission to write to Firebase
       // redirect to the account page
@@ -32,7 +32,8 @@ app.controller('AuthCtrl', ['$scope', 'Auth', '$location',
 
     $scope.loginUser = function() {
       Auth.loginUser($scope.user).then(function(authData) {
-     console.log('Logged in as:'+authData.user+' from login method');
+     console.log('Logged in as:'+authData.password.email  +' from login method');
+     console.log($scope.user);
      $location.path('/posts');
 
    }).catch(function(error) {
@@ -43,6 +44,7 @@ app.controller('AuthCtrl', ['$scope', 'Auth', '$location',
     $scope.logoutUser = function() {
       Auth.logoutUser();
     };
+
 
 
 }]);

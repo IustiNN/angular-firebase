@@ -7,13 +7,31 @@ app.factory('Auth', ['$firebaseAuth', function($firebaseAuth) {
 
     createUser : function(user) {
       return auth.$createUser({
-        email: user.email,
-        password: user.pass
+        password: user.pass,
+        email: user.email
+      }).then(function(authData) {
+         console.log('User ' + authData.uid + ' created successfully!');
+        return auth.$authWithPassword({
+          email: 'my@email.com',
+          password: 'mypassword'
+        });
+      }).then(function(authData) {
+        console.log('Logged in as:', authData.uid);
+      }).catch(function(error) {
+        console.error('Error: ', error);
       });
     },
 
+    checkLogin : auth.$onAuth(function(authData) {
+    if (authData) {
+      console.log('Logged in as:', authData.uid);
+      return authData;
+    } else {
+      console.log('Logged out');
+    }
+  }),
+
     loginUser : function (user) {
-      
      return auth.$authWithPassword({
      email: user.email,
      password: user.password
