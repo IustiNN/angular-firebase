@@ -7,9 +7,10 @@
       <p class="form-group"><input type="text" class="form-control" ng-model="post.url" /></p>
       <p class="form-group"><input type="submit" class="btn btn-succes" value="Add Post" /></p>
     </form> -->
- <div ng-controller="AuthCtrl" ng-show="authData.uid" class="formNav">
+ <div ng-controller="AuthCtrl" class="formNav">
 
- <div ng-controller="AuthCtrl" class="accRelated">
+<!-- if not logged in -->
+ <div class="accRelated" ng-hide="">
         <div ng-hide="userState.status">
           <h4>Please log in to submit a post.</h4>
         </div> 
@@ -28,7 +29,7 @@
       </div>
 
   <!-- if logged in  -->
-  <div ng-show="authData">
+  <div>
     <h4>Submit a post:</h4>
     <form class="navbar-form navbar-center" role="search" ng-submit="submitPost()">
       <div class="form-group">
