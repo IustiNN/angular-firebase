@@ -4,10 +4,10 @@
   <p ng-if="message">Message: <strong> </strong></p>
   <p ng-if="error">Error: <strong></strong></p>	
 
-  <form ng-submit="loginUser()">
-   <p class="form-group"><input type="email" ng-model="user.email" placeholder="Email" class="form-control"></p>
+  <form ng-submit="login()">
+   <p class="form-group"><input type="email" ng-model="email" placeholder="Email" class="form-control"></p>
    <!-- <p class="form-group"><input type="text" ng-model="user.username" placeholder="Username" class="form-control"></p> -->
-   <p class="form-group"><input type="password" ng-model="user.password" placeholder="Password" class="form-control"></p>
+   <p class="form-group"><input type="password" ng-model="password" placeholder="Password" class="form-control"></p>
     <p class="form-group"><input type="submit" value="Log in" class="btn btn-primary" /></p>
   </form>
 
