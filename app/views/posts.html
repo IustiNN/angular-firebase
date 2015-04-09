@@ -10,26 +10,18 @@
  <div ng-controller="AuthCtrl" class="formNav">
 
 <!-- if not logged in -->
- <div class="accRelated" ng-hide="">
-        <div ng-hide="userState.status">
-          <h4>Please log in to submit a post.</h4>
-        </div> 
-        <div ng-show="userState.status">
-          <h4>If you want to submit a post, go to the posts page.</h4>
-        </div> 
-        <div ng-show="user.authData">
-          <p>Hello, {{ authData.password.email }}</p>
-          <button ng-click="Auth.$unauth()" class="btn btn-danger">Logout</button>
-        </div>
+    <div class="accRelated">
         <div ng-hide="authData">
-          <p>Welcome, please log in.</p>
-          <a href="#/login">Login</a>
-          <a href="#/register">Register</a>
+          <h4>Please <a href="#/login">log in</a> to submit a post.</h4>
+        </div> 
+        <div ng-show="authData">
+          <p>Hello, {{ authData.facebook.displayName || authData.uid }}</p>
+          <button ng-click="Auth.$unauth()" class="btn btn-danger">Logout</button>
         </div>
       </div>
 
   <!-- if logged in  -->
-  <div>
+  <div ng-show="authData">
     <h4>Submit a post:</h4>
     <form class="navbar-form navbar-center" role="search" ng-submit="submitPost()">
       <div class="form-group">
