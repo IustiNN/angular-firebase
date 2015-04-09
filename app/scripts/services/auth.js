@@ -1,16 +1,13 @@
 'use strict';
-
 app.factory('Auth', ['$firebaseAuth', function($firebaseAuth) {
   var ref = new Firebase('https://dazzling-heat-502.firebaseio.com/');
-  
-  return $firebaseAuth(ref); 
-}
-]);
+  return  $firebaseAuth(ref);
+  }]);
 
 
-  
-  
- 
+
+
+
 // var Auth = {};
 // Auth.login = function(email, password) {
 //   auth.login('password', {
