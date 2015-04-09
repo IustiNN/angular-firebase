@@ -45,9 +45,16 @@ app.controller('AuthCtrl', ['$scope', 'Auth', '$location',
         console.error('Authentication failed:', error);
       });
     };
-    
-
+    $scope.loginFacebook = function() {
+      Auth.$authWithOAuthPopup('facebook').then(function(authData) {
+        console.log('Logged in as:', authData.uid);
+      }, { remember: 'sessionOnly',
+  scope: 'email,user_likes'}).catch(function(error) {
+        console.error('Authentication failed:', error);
+      });
+    };
 
 
 }]);
+
 
