@@ -14,7 +14,6 @@ app
 
    $scope.submitPost = function () {
       Post.create($scope.post).then(function(ref) {
-        console.log(Firebase.key.TIMESTAMP);
         console.log('Created post:' + $scope.post);
         $location.path('/posts/' + ref.name());
       });
