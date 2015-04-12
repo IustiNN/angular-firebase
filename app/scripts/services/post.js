@@ -17,13 +17,5 @@ app.factory('Post', function ($firebaseArray) {
     }
   };
 
-      // Record the current time immediately, and queue an event to
-// record the time at which the user disconnects.
-var sessionsRef = new Firebase('https://samplechat.firebaseio-demo.com/sessions/');
-var mySessionRef = sessionsRef.push();
-mySessionRef.onDisconnect().update({ endedAt: Firebase.ServerValue.TIMESTAMP });
-mySessionRef.update({ startedAt: Firebase.ServerValue.TIMESTAMP });
-    
-
   return Post;
 });

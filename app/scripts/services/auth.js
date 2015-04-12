@@ -7,7 +7,6 @@ app.factory('Auth', ['$firebaseAuth', function($firebaseAuth) {
 
 
 
-
 // var Auth = {};
 // Auth.login = function(email, password) {
 //   auth.login('password', {

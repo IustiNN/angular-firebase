@@ -30,7 +30,7 @@
           <h4>Please log in to submit a post.</h4>
         </div> 
         <div ng-show="authData">
-          <h4>If you want to submit a post, go to the <a detect-active-tab="1" href="#/posts">posts</a> page.</h4>
+          <h4 ng-hide="currentPath === '/posts'">If you want to submit a post, go to the <a detect-active-tab="1" href="#/posts">posts</a> page.</h4>
         </div> 
         <div ng-show="authData">
           <p>Hello, {{ authData.facebook.displayName || authData.uid}}</p>

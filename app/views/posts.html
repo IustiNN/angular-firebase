@@ -14,10 +14,6 @@
         <div ng-hide="authData">
           <h4>Please <a href="#/login">log in</a> to submit a post.</h4>
         </div> 
-        <div ng-show="authData">
-          <p>Hello, {{ authData.facebook.displayName || authData.uid }}</p>
-          <button ng-click="Auth.$unauth()" class="btn btn-danger">Logout</button>
-        </div>
       </div>
 
   <!-- if logged in  -->

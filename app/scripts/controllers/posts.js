@@ -16,6 +16,7 @@ app
       Post.create($scope.post).then(function(ref) {
         console.log('Created post:' + $scope.post);
         $location.path('/posts/' + ref.name());
+        $scope.post = {url: 'http://', title: ''};
       });
   };
     $scope.deletePost = function (post) {

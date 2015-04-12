@@ -11,6 +11,6 @@ app.controller('NavCtrl',['$scope', '$location', 'Auth', 'Post', function ($scop
     });
   };
   
-  
+
 
 }]	);
