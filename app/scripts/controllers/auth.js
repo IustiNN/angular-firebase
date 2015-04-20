@@ -1,15 +1,16 @@
 'use strict';
 
-app.controller('AuthCtrl', ['$scope', 'Auth', '$location',
-  function($scope, Auth, $location) {
+app.controller('AuthCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', 'Auth', '$location',
+  function($scope, Auth, $firebaseAuth, $firebaseArray ,$location) {
+      var ref= new Firebase('https://dazzling-heat-502.firebaseio.com/');
       $scope.message = null;
       $scope.error = null;
-      $scope.Auth = Auth;
+      $scope.Auth = $firebaseAuth(ref);
       $scope.user = Auth.user;
 
-      if ($scope.user) {
-        $location.path('/');
-      }
+      // if ($scope.user) {
+      //   $location.path('/');
+      // }
 
       $scope.currentPath = $location.path();
   console.log($scope.currentPath);
@@ -40,10 +41,9 @@ app.controller('AuthCtrl', ['$scope', 'Auth', '$location',
       });
     };
 
-    $scope.createProfile = function () {
-      var profile = {
-        username: $scope.user.username
-      };
+    $scope.createProfile = function createProfile(authData, user){
+      var profileRef = $firebaseArray(ref.child('profiles'));
+      return profileRef.$set(authData.uid, user);
     };
 
 
