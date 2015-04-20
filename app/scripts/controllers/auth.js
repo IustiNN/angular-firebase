@@ -6,7 +6,8 @@ app.controller('AuthCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', '$locat
       $scope.message = null;
       $scope.error = null;
       var Auth = $firebaseAuth(ref);
-      $scope.auth = Auth;
+      var User = $firebaseArray(ref);
+      $scope.Auth = Auth;
 
       // if ($scope.user) {
       //   $location.path('/');
@@ -26,24 +27,28 @@ app.controller('AuthCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', '$locat
       }
     });
 
+    var user = {
+      email: $scope.user.email,
+      pass: $scope.user.pass,
+      username: $scope.user.username
+    };
   $scope.createUser = function() {
       $scope.message = null;
       $scope.error = null;
       Auth.$createUser({
         email: $scope.user.email,
         password: $scope.user.password
-      }).then(function(userData) {
-        $scope.message = 'User created with uid: ' + userData.uid;
-        return Auth.createProfile($scope.user);
+      }).then(function(authData) {
+        $scope.message = 'User created with uid: ' + authData.uid;
+        return createProfile(user, authData);
       }).catch(function(error) {
         $scope.error = error;
       });
     };
 
-    $scope.createProfile = function createProfile(authData, user){
-      var profileRef = $firebaseArray(ref.child('profiles'));
-      return profileRef.$set(authData.uid, user);
-    };
+    function createProfile(authData, user){
+      return User.$set(authData.uid, user);
+    }
 
 
     $scope.login = function() {
