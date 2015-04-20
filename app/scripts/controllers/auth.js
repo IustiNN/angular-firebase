@@ -1,19 +1,19 @@
 'use strict';
 
-app.controller('AuthCtrl', ['$scope', 'Auth', '$location',
-  function($scope, Auth, $location) {
+app.controller('AuthCtrl', ['$scope', 'Auth', 'User', '$location',
+  function($scope, Auth, $location, User) {
       $scope.message = null;
       $scope.error = null;
       $scope.Auth = Auth;
       $scope.user = Auth.user;
 
-      if ($scope.user) {
-        $location.path('/');
-      }
+      // if ($scope.user) {
+      //   $location.path('/');
+      // }
 
-      $scope.currentPath = $location.path();
-  console.log($scope.currentPath);  
-  Auth.user = {};
+      // $scope.currentPath = $location.path();
+      // console.log($scope.currentPath);
+      Auth.user = {};
 
   // any time auth status updates, add the user data to scope
     Auth.$onAuth(function(authData) {
@@ -34,7 +34,7 @@ app.controller('AuthCtrl', ['$scope', 'Auth', '$location',
         password: $scope.user.password
       }).then(function(userData) {
         $scope.message = 'User created with uid: ' + userData.uid;
-        return Auth.createProfile($scope.user);
+        return $scope.createProfile();
       }).catch(function(error) {
         $scope.error = error;
       });
@@ -42,10 +42,14 @@ app.controller('AuthCtrl', ['$scope', 'Auth', '$location',
 
     $scope.createProfile = function () {
       var profile = {
-        username: $scope.user.username
+        username: $scope.user.username,
+        email: $scope.user.email,
+        password: $scope.user.password
       };
+      return User.create(profile);
     };
-    
+
+
 
     $scope.login = function() {
       Auth.$authWithPassword({
@@ -73,5 +77,3 @@ app.controller('AuthCtrl', ['$scope', 'Auth', '$location',
     };
 
 }]);
-
-
