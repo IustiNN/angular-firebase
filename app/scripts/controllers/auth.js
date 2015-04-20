@@ -1,20 +1,19 @@
 'use strict';
 
-app.controller('AuthCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', 'Auth', '$location',
-  function($scope, Auth, $firebaseAuth, $firebaseArray ,$location) {
+app.controller('AuthCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', '$location',
+  function($scope, $firebaseAuth, $firebaseArray ,$location) {
       var ref= new Firebase('https://dazzling-heat-502.firebaseio.com/');
       $scope.message = null;
       $scope.error = null;
-      $scope.Auth = $firebaseAuth(ref);
-      $scope.user = Auth.user;
+      var Auth = $firebaseAuth(ref);
+      $scope.auth = Auth;
 
       // if ($scope.user) {
       //   $location.path('/');
       // }
 
       $scope.currentPath = $location.path();
-  console.log($scope.currentPath);
-  Auth.user = {};
+      console.log($scope.currentPath);
 
   // any time auth status updates, add the user data to scope
     Auth.$onAuth(function(authData) {
