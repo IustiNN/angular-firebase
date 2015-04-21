@@ -14,7 +14,7 @@ app
 
    $scope.submitPost = function () {
       Post.create($scope.post).then(function(ref) {
-        console.log('Created post:' + $scope.post);
+        console.log('Created post:' + $scope.post + 'At: ' + Firebase.ServerValue.TIMESTAMP);
         $location.path('/posts/' + ref.name());
       });
   };

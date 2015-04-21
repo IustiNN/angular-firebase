@@ -28,10 +28,10 @@
       <div ng-controller="AuthCtrl" class="accRelated">
         <div ng-hide="authData">
           <h4>Please log in to submit a post.</h4>
-        </div> 
+        </div>
         <div ng-show="authData">
           <h4>If you want to submit a post, go to the <a detect-active-tab="1" href="#/posts">posts</a> page.</h4>
-        </div> 
+        </div>
         <div ng-show="authData">
           <p>Hello, {{ authData.facebook.displayName || authData.uid}}</p>
           <button ng-click="Auth.$unauth()" class="btn btn-danger">Logout</button>
@@ -42,7 +42,7 @@
           <a href="#/register" class="btn btn-warning">Register</a>
         </div>
         </div>
+        {{Firebase.ServerValue.TIMESTAMP}}
       </div>
 
     </div>
-
