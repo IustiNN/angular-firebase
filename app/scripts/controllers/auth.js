@@ -66,12 +66,11 @@ app.controller('AuthCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', '$locat
         password: $scope.password
       }).then(function(authData) {
         $scope.message = 'User created with uid: ' + authData.uid;
-        console.log( $scope.password);
           // save the user's profile into the database so we can list users,
           // use them in Security and Firebase Rules, and show profiles
-          ref.child('users').child(authData.uid).add({
-            provider: 'password',
-            name: getName($scope.email)
+          ref.child('users').child(authData.uid).set({
+            provider: authData.provider,
+            name: getName(authData)
           });
         // return createProfile(profile, authData);
       }).catch(function(error) {
