@@ -22,8 +22,8 @@
   'ngSanitize',
   'ngTouch'
   ])
-   .run(['$rootScope', '$location', function($rootScope, $location) {
-    $rootScope.$on('$routeChangeError', function(event, next, previous, error) {
+ .run(['$rootScope', '$location', function($rootScope, $location) {
+  $rootScope.$on('$routeChangeError', function(event, next, previous, error) {
       // We can catch the error thrown when the $requireAuth promise is rejected
       // and redirect the user back to the home page
       if (error === 'AUTH_REQUIRED') {
@@ -64,11 +64,21 @@
   })
   .when('/register', {
     templateUrl: 'views/register.html',
-    controller: 'AuthCtrl'
+    controller: 'AuthCtrl',
+    // resolve: {
+    //   user: function(Auth) {
+    //     return Auth.resolveUser();
+    //   }
+    // }
   })
   .when('/login', {
     templateUrl: 'views/login.html',
-    controller: 'AuthCtrl'
+    controller: 'AuthCtrl',
+    // resolve: {
+    //   user: function(Auth) {
+    //     return Auth.resolveUser();
+    //   }
+    // }
   })
   .when('/account', {
     // the rest is the same for ui-router and ngRoute...
