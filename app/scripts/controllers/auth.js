@@ -6,7 +6,33 @@ app.controller('AuthCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', '$locat
       $scope.message = null;
       $scope.error = null;
       var Auth = $firebaseAuth(ref);
+      // we would probably save a profile when we register new users on our site
+      // we could also read the profile to see if it's null
+      // here we will just simulate this with an isNewUser boolean
+      var isNewUser = true;
 
+      ref.onAuth(function(authData) {
+        if (authData && isNewUser) {
+          // save the user's profile into the database so we can list users,
+          // use them in Security and Firebase Rules, and show profiles
+          ref.child('users').child(authData.uid).set({
+            provider: authData.provider,
+            name: getName(authData)
+          });
+        }
+      });
+
+      // find a suitable name based on the meta info given by each provider
+      function getName(authData) {
+        switch(authData.provider) {
+           case 'password':
+             return authData.password.email.replace(/@.*/, '');
+           case 'twitter':
+             return authData.twitter.displayName;
+           case 'facebook':
+             return authData.facebook.displayName;
+        }
+      }
       $scope.Auth = Auth;
 
       // if ($scope.user) {
@@ -21,17 +47,17 @@ app.controller('AuthCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', '$locat
       $scope.authData = authData;
       if (authData) {
         console.log('Logged in as:', authData.uid);
-        console.log('sa vedem: ' + Auth.user);
+        console.log(Auth);
       } else {
         console.log('Logged out');
       }
     });
 
-    var profile = {
-      email: $scope.email,
-      pass: $scope.pass,
-      username: $scope.username
-    };
+    // var profile = {
+    //   email: $scope.email,
+    //   pass: $scope.pass,
+    //   username: $scope.username
+    // };
   $scope.createUser = function() {
       $scope.message = null;
       $scope.error = null;
@@ -40,16 +66,23 @@ app.controller('AuthCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', '$locat
         password: $scope.password
       }).then(function(authData) {
         $scope.message = 'User created with uid: ' + authData.uid;
-        return createProfile(profile, authData);
+        console.log( $scope.password);
+          // save the user's profile into the database so we can list users,
+          // use them in Security and Firebase Rules, and show profiles
+          ref.child('users').child(authData.uid).add({
+            provider: 'password',
+            name: getName($scope.email)
+          });
+        // return createProfile(profile, authData);
       }).catch(function(error) {
         $scope.error = error;
       });
     };
 
-    function createProfile(authData, profile){
-      var User = $firebaseArray(ref.child('users'));
-      return User.$set(authData.uid, profile);
-    }
+    // function createProfile(authData, profile){
+    //   var User = $firebaseArray(ref.child('users'));
+    //   return User.$set(authData.uid, profile);
+    // }
 
 
     $scope.login = function() {
@@ -76,5 +109,7 @@ app.controller('AuthCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', '$locat
     $scope.logout = function() {
       Auth.unauth();
     };
+
+    
 
 }]);

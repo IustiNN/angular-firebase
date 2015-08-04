@@ -13,7 +13,7 @@ app.factory('Post', function ($firebaseArray) {
       return $firebaseArray(ref.child('posts').child(postId));
     },
     delete: function (post) {
-      Post.delete(post);
+      posts.$remove(post);
     }
   };
 

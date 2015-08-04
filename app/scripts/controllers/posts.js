@@ -10,7 +10,7 @@
 app
   .controller('PostsCtrl',['$scope', '$location', 'Post', function ($scope, $location, Post) {
     var posts = Post.all;
-    $scope.post = {'url': 'http://', 'title': '', 'timestamp': Firebase.ServerValue.TIMESTAMP};
+    $scope.post = {'url': 'http://', 'title': ''};
 
    $scope.submitPost = function () {
       Post.create($scope.post).then(function(ref) {
@@ -19,7 +19,7 @@ app
       });
   };
     $scope.deletePost = function (post) {
-      return posts.$remove(post);
+      Post.delete(post);
     };
     $scope.posts = posts;
 
