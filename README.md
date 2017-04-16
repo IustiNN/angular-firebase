@@ -7,7 +7,7 @@ version 0.11.1.
 
 ####[![Coverage Status](https://coveralls.io/repos/IustiNN/angular-firebase/badge.svg)](https://coveralls.io/r/IustiNN/angular-firebase)
 
-####[![Codacy Badge](https://www.codacy.com/project/badge/3265dda2da7a45da904372dbd394de95)](https://www.codacy.com/app/iustin-nitza/angular-firebase)
+####[![Codacy Badge](https://www.codacy.com/project/badge/9b5f59d129784a149dea25ae85c92acb)](https://www.codacy.com/app/iustin-nitza/angular-firebase)
 
 ####[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
